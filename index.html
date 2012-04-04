@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Yard-Cucumber : YARD extension that adds Cucumber Features, Tags, and Step Definitions" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Yard-Cucumber</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/burtlo/yard-cucumber">Fork Me on GitHub</a>
+
+          <h1 id="project_title">Yard-Cucumber</h1>
+          <h2 id="project_tagline">YARD extension that adds Cucumber Features, Tags, and Step Definitions</h2>
+
+          <section id="downloads">
+            <a class="zip_download_link" href="https://github.com/burtlo/yard-cucumber/zipball/master">Download this project as a .zip file</a>
+            <a class="tar_download_link" href="https://github.com/burtlo/yard-cucumber/tarball/master">Download this project as a tar.gz file</a>
+          </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>YARD-Cucumber: A Requirements Documentation Tool</h1>
+
+<h2>Synopsis</h2>
+
+<p>YARD-Cucumber (formerly Cucumber-In-The-Yard) is a YARD extension that processes
+Cucumber features, scenarios, steps, tags, step definitions, and even transforms 
+to provide documentation similar to what you expect to how YARD displays classes, 
+methods and constants.This tools bridges the gap of having feature files found in
+your source code and true documentation that your team, product owners and
+stakeholders can use.</p>
+
+<h2>Examples</h2>
+
+<p>I have created a trivial, example project to help provide a quick 
+visualization of the resulting documentation. I encourage you to look at it as 
+an example and see if it would assist your project from a multitude of 
+perspectives: as the project's core developer; another developer or a new 
+developer; quality assurance engineer; or product owner/stakeholder.</p>
+
+<p>The implemented example has been deployed at <a href="http://recursivegames.com/cukes/">http://recursivegames.com/cukes/</a>.</p>
+
+<p><strong>1. View Features and Scenarios</strong> <a href="http://recursivegames.com/cukes/requirements.html">example</a></p>
+
+<p><strong>2. Search through <a href="http://recursivegames.com/cukes/feature_list.html">features, scenarios</a>, and <a href="http://recursivegames.com/cukes/tag_list.html">tags</a></strong></p>
+
+<p><strong>3. Dynamic Tag Unions and Intersections</strong> <a href="http://recursivegames.com/cukes/requirements/tags.html">example</a></p>
+
+<p><strong>4. View all features and scenarios by tag</strong> <a href="http://recursivegames.com/cukes/requirements/tags/bvt.html">example</a></p>
+
+<p><strong>5. View Step Definitions and Transforms</strong> <a href="http://recursivegames.com/cukes/requirements/step_transformers.html">example</a></p>
+
+<p><strong>6. All steps <a href="http://recursivegames.com/cukes/requirements/step_transformers.html#definition_5-stepdefinition">matched</a> to step definitions</strong></p>
+
+<p><strong>7. <a href="http://recursivegames.com/cukes/requirements/step_transformers.html#step_transform7-steptransform">Steps</a> that have transforms applied to them</strong></p>
+
+<p><strong>8. <a href="http://recursivegames.com/cukes/requirements/step_transformers.html#undefined_steps">Undefined steps</a> and even <a href="http://rubular.com/">Rubular</a> links of your step definitions.</strong></p>
+
+<p><strong>9. Feature directories with a README.md will be parsed into the description</strong> <a href="http://recursivegames.com/cukes/requirements/example/child_feature.html">example</a></p>
+
+<p><strong>10. Configurable Menus - want a searchable steps menu and remove the tags menu</strong></p>
+
+<p><strong>11. Step definitions in your language (Ruby 1.9.2 - Internationalization)</strong></p>
+
+<h2>Installation</h2>
+
+<p>YARD-Cucumber requires the following gems installed:</p>
+
+<p>Gherkin 2.2.9 - <a href="http://cukes.info">http://cukes.info</a>
+Cucumber 0.7.5 - <a href="http://cukes.info">http://cukes.info</a>
+YARD 0.7.0 - <a href="http://yardoc.org">http://yardoc.org</a></p>
+
+<p>To install <code>yard-cucumber</code> use the following command:</p>
+
+<pre><code>$ gem install yard-cucumber
+</code></pre>
+
+<p>(Add <code>sudo</code> if you're installing under a POSIX system as root)</p>
+
+<h2>Usage</h2>
+
+<p>YARD supports for automatically including gems with the prefix <code>yard-</code> 
+as a plugin. To enable automatic loading yard-cucumber. </p>
+
+<pre><code>$ mkdir ~/.yard
+$ yard config load_plugins true
+$ yardoc 'example/**/*.rb' 'example/**/*.feature'
+</code></pre>
+
+<p>Now you can run YARD as you <a href="https://github.com/lsegal/yard">normally</a> would and 
+have your features, step definitions and transforms captured.</p>
+
+<p>An example with the rake task:</p>
+
+<pre><code>require 'yard'
+
+YARD::Rake::YardocTask.new do |t|
+t.files   = ['features/**/*.feature', 'features/**/*.rb']
+t.options = ['--any', '--extra', '--opts'] # optional
+end
+</code></pre>
+
+<h2>Configuration</h2>
+
+<ul>
+<li>Adding or Removing search fields (yardoc)</li>
+</ul><p>Be default the yardoc output will generate a search field for features and tags.
+This can be configured through the yard configuration file <code>~/.yard/config</code> to
+add or remove these search fields.</p>
+
+<pre><code>--- !map:SymbolHash 
+:load_plugins: true
+:ignored_plugins: []
+
+:autoload_plugins: []
+
+:safe_mode: false
+
+:"yard-cucumber": 
+  menus: [ 'features', 'tags', 'steps', 'step definitions' ]
+</code></pre>
+
+<p>By default the configuration, yaml format, that is generate by the <code>yard config</code> 
+command will save a <code>SymbolHash</code>. You can still edit this file add the entry for 
+<code>:"yard-cucumber":</code> and the sub-entry <code>menus:</code> which can contain all of the above
+mentioned menus or simply an empty array <code>[]</code> if you want no additional menus.</p>
+
+<ul>
+<li>Step definitions in your language (Ruby 1.9.2)</li>
+</ul><p>Again the yard configuration file you can define additional step definitions that
+can be matched.</p>
+
+<pre><code>:"yard-cucumber": 
+  language: 
+    step_definitions: [ 'Given', 'When', 'Then', 'And', 'Soit', 'Etantdonné', 'Lorsque', 'Lorsqu', 'Alors', 'Et' ]
+</code></pre>
+
+<p>In this example, I have included the French step definition words alongside the
+English step definitions. Even without specifying this feature files in other
+languages are found, this provides the ability for the step definitions to match
+correctly to step definitions.</p>
+
+<h2>Details</h2>
+
+<p>There are two things that I enjoy: a test framework written in my own Domain
+Specific Language (DSL) that is easily understood by all those on a project
+and the ability for all participants to easily read, search, and view the tests.</p>
+
+<p>Cucumber is an amazing tool that allowed me to define exercisable requirements. 
+My biggest obstacle was bringing these requirements to my team, the product
+owner, and other stakeholders.</p>
+
+<p>Initially I tried to expose more of the functionality by providing freshly
+authored requirements through email, attachments to JIRA tickets, or linked in
+wiki documents. None of these methods were very sustainable or successful. 
+First, I was continually pushing out the documents to those interested. 
+Second, the documents were displayed to the user in text without the syntax
+highlighting that was exceedingly helpful for quickly understanding the requirements.</p>
+
+<p>I also found it hard to share the test framework that I had put together with
+another developer that joined the team. It was difficult to direct them around
+the features, tags, step definitions, and transforms. It was when I started to 
+convey to them the conventions that I had established that I wished I had a
+tool that would allow me to provide documentation like one would find generated 
+by a great tool like YARD.</p>
+
+<p>So I set out to integrate Cucumber objects like features, backgrounds, 
+scenarios, tags, steps, step definitions, and transforms into a YARD template.
+From my quick survey of the landscape I can see that the my needs are
+different than a lot of others that use Cucumber.  The entire project that
+spawned this effort was solely to exercise the functionality of a different,
+large project and so there is a huge dependence on having the requirements
+documented.  This is in contrast to other projects that are using this on a
+small scale to test the functionality of small software component.  Though,
+ultimately, I realized that the functionality may provide a valuable tool for
+many as I feel it helps more solidly bridge the reporting of the documentation
+by putting a coat of paint on it.</p>
+
+<h2>LICENSE</h2>
+
+<p>(The MIT License)</p>
+
+<p>Copyright (c) 2011 Franklin Webber</p>
+
+<p>Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+'Software'), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:</p>
+
+<p>The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.</p>
+
+<p>THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Yard-Cucumber maintained by <a href="https://github.com/burtlo">burtlo</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
